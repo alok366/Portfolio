@@ -1,0 +1,1589 @@
+/* ==========================================================================
+   ALOK PANWAR - PORTFOLIO DESIGN SYSTEM
+   Developer: Alok Panwar
+   ========================================================================== */
+
+:root {
+  /* Theme: Acid Green (#44d62c) & Cyber Cyan (#00f0ff) */
+  --horizon-pink: #44d62c; /* Primary: Toxic / Acid Green */
+  --horizon-pink-glow: rgba(68, 214, 44, 0.45);
+  --horizon-yellow: #00f0ff; /* Secondary: Cyber Cyan */
+  --horizon-yellow-glow: rgba(0, 240, 255, 0.4);
+  --horizon-cyan: #8b5cf6; /* Tertiary: Cyber Violet */
+  --horizon-cyan-glow: rgba(139, 92, 246, 0.35);
+  --horizon-purple: #a855f7;
+  --horizon-orange: #70e000;
+  
+  /* Asphalts & Dark Metallics */
+  --bg-dark: #07090e;
+  --bg-surface: #0e121b;
+  --bg-card: #141926;
+  --bg-card-hover: #1c2336;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(68, 214, 44, 0.5);
+  
+  /* Typography & Whites */
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --text-dim: #64748b;
+  --text-bright: #ffffff;
+  
+  /* Racing Slant Angles */
+  --skew-angle: -9deg;
+  --skew-angle-rev: 9deg;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  
+  /* Fonts */
+  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  --transition-fast: 0.18s cubic-bezier(0.2, 0.9, 0.3, 1);
+  --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Light / Day Festival Mode (optional toggle support) */
+body.day-festival {
+  --bg-dark: #0c101a;
+  --bg-surface: #131826;
+  --bg-card: #1a2233;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+  background-image: 
+    radial-gradient(circle at 15% 10%, rgba(68, 214, 44, 0.15), transparent 45%),
+    radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.12), transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.08), transparent 45%),
+    linear-gradient(180deg, #07090e 0%, #0a0d15 50%, #07090e 100%);
+  background-attachment: fixed;
+}
+
+/* Tire Track & Grid Overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: 0;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Racing Chevrons & Slanted Tags */
+.skew-box {
+  display: inline-block;
+  transform: skewX(var(--skew-angle));
+}
+.skew-box > * {
+  display: inline-block;
+  transform: skewX(var(--skew-angle-rev));
+}
+
+/* ==========================================================================
+   FESTIVAL TOPBAR & HUD NAVIGATION
+   ========================================================================== */
+.festival-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(7, 9, 14, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: all 0.3s ease;
+}
+
+.festival-navbar.scrolled {
+  background: rgba(7, 9, 14, 0.96);
+  border-bottom: 1px solid rgba(68, 214, 44, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.nav-hud-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+/* Brand / Developer Tag */
+.player-tag {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.tag-badge {
+  background: linear-gradient(135deg, var(--horizon-pink), #a0003b);
+  color: #fff;
+  padding: 4px 10px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.8rem;
+  letter-spacing: 1.5px;
+  border-radius: 2px;
+  transform: skewX(var(--skew-angle));
+  box-shadow: 0 0 12px var(--horizon-pink-glow);
+}
+.tag-badge > span {
+  display: inline-block;
+  transform: skewX(var(--skew-angle-rev));
+}
+
+.player-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.player-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.player-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--horizon-cyan);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Nav Menu Links */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 20px;
+}
+
+.nav-link {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 6px 12px;
+  position: relative;
+  transition: var(--transition-fast);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #ffffff;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--horizon-pink);
+  box-shadow: 0 0 8px var(--horizon-pink);
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* HUD Utility Controls: Audio & HR/Tech Toggle */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* View Mode Switcher (HR vs Tech) */
+.mode-toggle-pill {
+  display: flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 3px;
+  transform: skewX(var(--skew-angle));
+}
+
+.mode-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  transform: skewX(var(--skew-angle-rev));
+  transition: var(--transition-fast);
+}
+
+.mode-btn.active {
+  background: var(--horizon-pink);
+  color: #ffffff;
+  box-shadow: 0 0 10px var(--horizon-pink-glow);
+}
+
+.mode-btn.tech.active {
+  background: var(--horizon-cyan);
+  color: #07090e;
+  box-shadow: 0 0 10px var(--horizon-cyan-glow);
+}
+
+/* Sound Switch Button */
+.audio-toggle-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.audio-toggle-btn:hover {
+  border-color: var(--horizon-yellow);
+  color: var(--horizon-yellow);
+}
+
+.hamburger-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   HERO / FESTIVAL MAIN STAGE
+   ========================================================================== */
+.hero-stage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 130px 0 60px;
+  overflow: hidden;
+}
+
+/* Racing Livery Background Streaks */
+.racing-stripes-bg {
+  position: absolute;
+  right: -5%;
+  top: 0;
+  width: 60%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+  opacity: 0.25;
+}
+
+.racing-stripes-bg::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: 15%;
+  width: 250px;
+  height: 150%;
+  background: linear-gradient(135deg, transparent 40%, rgba(68, 214, 44, 0.4) 42%, rgba(68, 214, 44, 0.4) 48%, transparent 50%),
+              linear-gradient(135deg, transparent 48%, rgba(0, 240, 255, 0.4) 50%, rgba(0, 240, 255, 0.4) 54%, transparent 56%),
+              linear-gradient(135deg, transparent 56%, rgba(139, 92, 246, 0.4) 58%, rgba(139, 92, 246, 0.4) 64%, transparent 66%);
+  transform: skewX(-25deg);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Festival Ticket / Passport Header */
+.festival-ticket-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(68, 214, 44, 0.12);
+  border-left: 3px solid var(--horizon-pink);
+  padding: 6px 14px;
+  margin-bottom: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  color: var(--horizon-pink);
+  text-transform: uppercase;
+}
+
+.festival-ticket-pill .status-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--horizon-pink);
+  box-shadow: 0 0 10px var(--horizon-pink);
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.4); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  line-height: 1.22;
+  text-transform: none;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 24px;
+}
+
+.hero-title .highlight-pink {
+  color: var(--horizon-pink);
+  text-shadow: 0 0 20px var(--horizon-pink-glow);
+  display: inline-block;
+}
+
+.hero-title .highlight-yellow {
+  color: var(--horizon-yellow);
+  text-shadow: 0 0 20px var(--horizon-yellow-glow);
+  display: inline-block;
+}
+
+/* Simple English Hero Subtitle */
+.hero-mission {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #cbd5e1;
+  max-width: 600px;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.hero-mission strong {
+  color: #fff;
+}
+
+/* Mode-Dependent Pill in Hero */
+.view-explainer {
+  font-size: 0.85rem;
+  color: var(--horizon-yellow);
+  background: rgba(255, 230, 0, 0.08);
+  border-left: 2px solid var(--horizon-yellow);
+  padding: 6px 12px;
+  margin-bottom: 24px;
+  display: inline-block;
+  font-family: var(--font-mono);
+}
+
+/* Action Buttons */
+.hero-cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+/* Slanted Action Buttons */
+.btn-forza {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-radius: 3px;
+  cursor: pointer;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transform: skewX(var(--skew-angle));
+  transition: var(--transition-fast);
+}
+
+.btn-forza > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transform: skewX(var(--skew-angle-rev));
+}
+
+.btn-forza-primary {
+  background: var(--horizon-pink);
+  color: #07090e;
+  font-weight: 800;
+  box-shadow: 0 0 25px var(--horizon-pink-glow);
+}
+
+.btn-forza-primary:hover {
+  background: #36b820;
+  transform: skewX(var(--skew-angle)) translateY(-2px);
+  box-shadow: 0 0 35px rgba(68, 214, 44, 0.7);
+}
+
+.btn-forza-outline {
+  background: rgba(20, 25, 38, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.btn-forza-outline:hover {
+  border-color: var(--horizon-yellow);
+  color: var(--horizon-yellow);
+  box-shadow: 0 0 20px var(--horizon-yellow-glow);
+  transform: skewX(var(--skew-angle)) translateY(-2px);
+}
+
+.btn-forza-yellow {
+  background: var(--horizon-yellow);
+  color: #07090e;
+  box-shadow: 0 0 20px var(--horizon-yellow-glow);
+}
+.btn-forza-yellow:hover {
+  background: #33f3ff;
+  transform: skewX(var(--skew-angle)) translateY(-2px);
+}
+
+/* Quick Telemetry Strip */
+.quick-telemetry-strip {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.tele-stat {
+  display: flex;
+  flex-direction: column;
+  padding-left: 12px;
+  border-left: 2px solid var(--horizon-pink);
+}
+
+.tele-stat:nth-child(2) {
+  border-left-color: var(--horizon-yellow);
+}
+.tele-stat:nth-child(3) {
+  border-left-color: var(--horizon-cyan);
+}
+
+.tele-num {
+  font-family: var(--font-mono);
+  font-weight: 900;
+  font-size: 1.4rem;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.tele-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+/* HERO RIGHT: PERFORMANCE OVERVIEW HUD */
+.hero-hud-card {
+  background: linear-gradient(145deg, rgba(20, 25, 38, 0.95), rgba(12, 16, 26, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 3px solid var(--horizon-pink);
+  border-radius: 6px;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-hud-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, transparent 50%, rgba(255, 230, 0, 0.1) 50%);
+  pointer-events: none;
+}
+
+.hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+}
+
+.hud-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.hud-class-badge {
+  background: var(--horizon-yellow);
+  color: #000;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.78rem;
+  padding: 3px 8px;
+  letter-spacing: 1px;
+  border-radius: 2px;
+  transform: skewX(var(--skew-angle));
+}
+.hud-class-badge span {
+  display: inline-block;
+  transform: skewX(var(--skew-angle-rev));
+}
+
+/* Telemetry Gauge Display */
+.telemetry-meters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.meter-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.meter-header {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.meter-header .meter-name {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.meter-header .meter-val {
+  font-weight: 800;
+  color: var(--horizon-cyan);
+}
+
+.meter-bar-track {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  transform: skewX(var(--skew-angle));
+}
+
+.meter-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fill-speed {
+  background: linear-gradient(90deg, #44d62c, #70e000);
+  box-shadow: 0 0 10px rgba(68, 214, 44, 0.6);
+}
+
+.fill-arch {
+  background: linear-gradient(90deg, #00f0ff, #00bbf9);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+
+.fill-ml {
+  background: linear-gradient(90deg, #8b5cf6, #a855f7);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
+}
+
+.fill-reliability {
+  background: linear-gradient(90deg, #00f0ff, #44d62c);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+
+/* Speed Trap Highlight */
+.speed-trap-box {
+  background: rgba(68, 214, 44, 0.08);
+  border: 1px dashed var(--horizon-pink);
+  border-radius: 4px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.speed-trap-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.trap-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  color: var(--horizon-pink);
+  text-transform: uppercase;
+}
+
+.trap-desc {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}
+
+.trap-score {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.trap-score small {
+  font-size: 0.8rem;
+  color: var(--horizon-yellow);
+}
+
+/* ==========================================================================
+   PORTFOLIO SECTIONS GENERAL STYLING
+   ========================================================================== */
+.festival-section {
+  padding: 100px 0;
+  position: relative;
+}
+
+.section-hud-title {
+  margin-bottom: 48px;
+}
+
+.section-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--horizon-yellow);
+  margin-bottom: 10px;
+}
+
+.section-main-heading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  text-transform: none;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: #ffffff;
+}
+
+.section-main-heading span {
+  color: var(--horizon-pink);
+}
+
+.section-subtext {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 680px;
+  margin-top: 8px;
+}
+
+/* ==========================================================================
+   EXPEDITIONS / STORY / ABOUT SECTION
+   ========================================================================== */
+.expedition-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.story-main-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 36px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.story-main-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--horizon-pink), var(--horizon-yellow));
+}
+
+.chapter-badge {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  color: var(--horizon-pink);
+  text-transform: uppercase;
+}
+
+.story-lead {
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+.story-body {
+  font-size: 0.96rem;
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+/* Personal Passions Cards (World Building, Music, Games) */
+.passions-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.passion-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 24px;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.passion-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 230, 0, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.passion-icon-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.passion-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transform: skewX(var(--skew-angle));
+}
+
+.icon-story {
+  background: rgba(68, 214, 44, 0.15);
+  color: var(--horizon-pink);
+  border: 1px solid var(--horizon-pink);
+}
+
+.icon-audio {
+  background: rgba(0, 240, 255, 0.15);
+  color: var(--horizon-yellow);
+  border: 1px solid var(--horizon-yellow);
+}
+
+.icon-gaming {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--horizon-cyan);
+  border: 1px solid var(--horizon-cyan);
+}
+
+.passion-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.passion-desc {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.passion-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.passion-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3px 8px;
+  border-radius: 2px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   PROJECTS SHOWCASE
+   ========================================================================== */
+.garage-controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.category-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cat-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  transform: skewX(var(--skew-angle));
+  transition: var(--transition-fast);
+}
+
+.cat-btn > span {
+  display: inline-block;
+  transform: skewX(var(--skew-angle-rev));
+}
+
+.cat-btn:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.cat-btn.active {
+  background: var(--horizon-pink);
+  border-color: var(--horizon-pink);
+  color: #ffffff;
+  box-shadow: 0 0 15px var(--horizon-pink-glow);
+}
+
+.mode-indicator-flag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--horizon-yellow);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Project Cards Grid */
+.projects-garage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 28px;
+}
+
+.project-car-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+}
+
+.project-car-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--horizon-pink);
+  box-shadow: 0 15px 35px rgba(68, 214, 44, 0.15);
+}
+
+/* Card Header Spec Banner */
+.car-card-header {
+  padding: 18px 22px 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.car-class-spec {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.car-class-badge {
+  background: var(--horizon-yellow);
+  color: #07090e;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  transform: skewX(var(--skew-angle));
+}
+
+.car-class-badge.s2 {
+  background: var(--horizon-pink);
+  color: #07090e;
+}
+
+.car-class-badge.s1 {
+  background: var(--horizon-yellow);
+  color: #07090e;
+}
+
+.car-class-badge.a {
+  background: var(--horizon-cyan);
+  color: #ffffff;
+}
+
+.car-class-badge span {
+  display: inline-block;
+  transform: skewX(var(--skew-angle-rev));
+}
+
+.car-category-type {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.car-status-pill {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--horizon-cyan);
+  background: rgba(139, 92, 246, 0.15);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+/* Card Body Content */
+.car-card-body {
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.project-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: #ffffff;
+  margin-bottom: 12px;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+/* Dual Narrative: Recruiter Story vs Tech Telemetry */
+.project-story-hr {
+  font-size: 0.92rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.project-story-hr .highlight-lead {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.project-tech-telemetry {
+  display: none;
+  font-size: 0.88rem;
+  color: #94a3b8;
+  line-height: 1.55;
+  margin-bottom: 20px;
+  flex-grow: 1;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px;
+  border-radius: 4px;
+  border-left: 2px solid var(--horizon-cyan);
+}
+
+body.view-tech .project-story-hr {
+  display: none;
+}
+body.view-tech .project-tech-telemetry {
+  display: block;
+}
+
+/* Performance Highlight Callout */
+.car-stat-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.callout-label {
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.callout-val {
+  color: var(--horizon-yellow);
+  font-weight: 800;
+}
+
+/* Tech Spec Badges */
+.car-tech-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.tech-pill {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   TUNING SHOP: SKILLS & CAPABILITIES
+   ========================================================================== */
+.tuning-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.tuning-category-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.tuning-category-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tuning-cat-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 14px;
+}
+
+.tuning-cat-icon {
+  font-size: 1.3rem;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  transform: skewX(var(--skew-angle));
+}
+
+.tuning-cat-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.tuning-cat-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+/* Tuning Bars */
+.tuning-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tuning-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tuning-item-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.tuning-item-info span:first-child {
+  color: #e2e8f0;
+}
+
+.tuning-item-info span:last-child {
+  font-family: var(--font-mono);
+  color: var(--horizon-yellow);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.tune-progress-track {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 2px;
+  overflow: hidden;
+  transform: skewX(var(--skew-angle));
+}
+
+.tune-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--horizon-pink), var(--horizon-yellow));
+}
+
+.tuning-category-card:nth-child(2) .tune-progress-fill {
+  background: linear-gradient(90deg, var(--horizon-yellow), #00bbf9);
+}
+.tuning-category-card:nth-child(3) .tune-progress-fill {
+  background: linear-gradient(90deg, #ff6b35, #ff9f1c);
+}
+.tuning-category-card:nth-child(4) .tune-progress-fill {
+  background: linear-gradient(90deg, #8b5cf6, #d946ef);
+}
+
+/* ==========================================================================
+   CAREER FESTIVAL TIMELINE / ACCOLADES
+   ========================================================================== */
+.festival-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.festival-timeline::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 20px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--horizon-pink), var(--horizon-yellow), var(--horizon-cyan), var(--horizon-pink));
+}
+
+.timeline-event-card {
+  position: relative;
+  padding-left: 54px;
+}
+
+.timeline-checkpoint-node {
+  position: absolute;
+  left: 21px;
+  top: 38px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bg-dark);
+  border: 3px solid var(--horizon-pink);
+  box-shadow: 0 0 10px var(--horizon-pink);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.timeline-event-card:nth-child(2) .timeline-checkpoint-node {
+  border-color: var(--horizon-yellow);
+  box-shadow: 0 0 10px var(--horizon-yellow);
+}
+.timeline-event-card:nth-child(3) .timeline-checkpoint-node {
+  border-color: var(--horizon-cyan);
+  box-shadow: 0 0 10px var(--horizon-cyan);
+}
+.timeline-event-card:nth-child(4) .timeline-checkpoint-node {
+  border-color: var(--horizon-pink);
+  box-shadow: 0 0 10px var(--horizon-pink);
+}
+
+.timeline-card-inner {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 28px;
+  transition: var(--transition-smooth);
+}
+
+.timeline-card-inner:hover {
+  transform: translateX(6px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.timeline-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.role-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #ffffff;
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+
+.company-tag {
+  font-size: 0.95rem;
+  color: var(--horizon-cyan);
+  font-weight: 600;
+}
+
+.event-date-pill {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--horizon-yellow);
+  background: rgba(0, 240, 255, 0.12);
+  padding: 4px 10px;
+  border-radius: 2px;
+  transform: skewX(var(--skew-angle));
+}
+.event-date-pill span {
+  display: inline-block;
+  transform: skewX(var(--skew-angle-rev));
+}
+
+.event-summary {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.event-bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.event-bullet-list li {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  position: relative;
+  padding-left: 18px;
+}
+
+.event-bullet-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--horizon-pink);
+  font-weight: 900;
+}
+
+/* ==========================================================================
+   CONTACT / FESTIVAL HEADQUARTERS
+   ========================================================================== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+}
+
+.contact-card-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 36px;
+}
+
+.contact-channels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.channel-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  text-decoration: none;
+  color: #fff;
+  transition: var(--transition-fast);
+}
+
+.channel-link:hover {
+  background: rgba(68, 214, 44, 0.08);
+  border-color: var(--horizon-pink);
+  transform: translateY(-2px);
+}
+
+.channel-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background: var(--bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--horizon-pink);
+  font-size: 1.1rem;
+}
+
+.channel-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.channel-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.channel-handle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Quick Driver Passport / Resume Download */
+.passport-download-card {
+  background: linear-gradient(145deg, rgba(20, 25, 38, 0.98), rgba(12, 16, 26, 1));
+  border: 1px solid rgba(255, 230, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.passport-top {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.passport-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: var(--horizon-yellow);
+  text-transform: uppercase;
+}
+
+.passport-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #ffffff;
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+
+.passport-desc {
+  font-size: 0.92rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.festival-footer {
+  padding: 40px 0;
+  border-top: 1px solid var(--border-subtle);
+  background: #05070a;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-tagline {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.footer-copy {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+/* ==========================================================================
+   RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .expedition-grid {
+    grid-template-columns: 1fr;
+  }
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  .racing-stripes-bg {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    background: rgba(7, 9, 14, 0.98);
+    flex-direction: column;
+    padding: 24px;
+    gap: 16px;
+    border-bottom: 1px solid var(--horizon-pink);
+    transform: translateY(-150%);
+    transition: transform 0.3s ease;
+  }
+  .nav-menu.open {
+    transform: translateY(0);
+  }
+  .hamburger-btn {
+    display: block;
+  }
+  .contact-channels {
+    grid-template-columns: 1fr;
+  }
+  .projects-garage-grid {
+    grid-template-columns: 1fr;
+  }
+}
